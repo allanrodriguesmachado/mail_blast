@@ -7,7 +7,7 @@
                     {{ __('Criar Nova Lista') }}
                 </h2>
 
-                <form action="{{ route('list.store') }}" method="POST" class="space-y-6">
+                <form action="{{ route('list.store') }}" method="POST" class="space-y-6" enctype="multipart/form-data">
                     @csrf
 
                     <div>
@@ -22,6 +22,12 @@
                             autofocus
                         />
                         <x-input-error :messages="$errors->get('title')" class="mt-2" />
+                    </div>
+
+                    <div>
+
+                        <label class="block mb-2.5 text-sm font-medium text-heading" for="file_input">Upload file</label>
+                        <input class="cursor-pointer bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full shadow-xs placeholder:text-body" id="file" name="file" type="file">
                     </div>
 
                     <div class="flex items-center gap-4">
