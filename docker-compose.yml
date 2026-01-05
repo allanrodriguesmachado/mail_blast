@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=101014
+      - POSTGRES_DB=mail_blast
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql  # Mudança aqui: removemos o /data
+
+volumes:
+  pgdata:
