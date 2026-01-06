@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\ListMail;
 use App\Models\Subscript;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,5 +24,6 @@ class AppServiceProvider extends ServiceProvider
     {
         ListMail::unguard();
         Subscript::unguard();
+        Paginator::useTailwind();
     }
 }

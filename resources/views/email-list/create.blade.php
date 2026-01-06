@@ -25,14 +25,12 @@
                     </div>
 
                     <div>
-
-                        <label class="block mb-2.5 text-sm font-medium text-heading" for="file_input">Upload file</label>
-                        <input class="cursor-pointer bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full shadow-xs placeholder:text-body" id="file" name="file" type="file">
+                        <label class="block mb-2.5 text-sm font-medium text-heading" for="file">Upload file</label>
+                        <input class="cursor-pointer bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full shadow-xs placeholder:text-body" id="file" name="file" accept=".text/csv, .csv" type="file">
                     </div>
 
                     <div class="flex items-center gap-4">
                         <x-primary-button title="{{__('Enviar')}}" />
-
 
                         @if (session('status') === 'list-created')
                             <p class="text-sm text-gray-600">{{ __('Salvo com sucesso.') }}</p>

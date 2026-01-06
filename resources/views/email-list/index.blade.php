@@ -14,7 +14,17 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="flex justify-end" >
+                <form action="{{route('list')}}" method="POST">
+                    @csrf
+                    @method('GET')
+
+                    <input type="search" placeholder="Pesquisar"  name="search" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                </form>
+            </div>
+
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
                 @forelse($emptyList as $list)
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg border border-gray-200 dark:border-gray-700 p-6">
                         <div class="flex items-center justify-between mb-4">
@@ -29,7 +39,9 @@
                         <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
                             Criada em: {{ $list->created_at->format('d/m/Y') }}
                         </p>
+
                     </div>
+
                 @empty
                     <div class="col-span-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-12 text-center">
                         <div class="flex flex-col items-center">
@@ -39,8 +51,6 @@
                             <h3 class="text-lg font-medium text-gray-900 dark:text-gray-200">Nenhuma lista encontrada</h3>
                             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Comece criando sua primeira lista de contatos para seus e-mails.</p>
 
-
-
                             <div class="mt-6">
                                 <a href="{{route('list.create')}}"  class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none">
                                     Criar E-mail
@@ -49,8 +59,8 @@
                         </div>
                     </div>
                 @endforelse
-            </div>
 
+            </div>
         </div>
     </div>
 </x-app-layout>

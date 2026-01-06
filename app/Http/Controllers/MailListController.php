@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\ListMail;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use JetBrains\PhpStorm\NoReturn;
 
 class MailListController extends Controller
 {
     public function index()
     {
         return view('email-list.index', [
-            'emptyList' => ListMail::query()->get(),
+            'emptyList' => ListMail::query()->where('title', 'like', '%' . request()->search . '%')->paginate(2),
         ]);
     }
 
@@ -20,6 +21,9 @@ class MailListController extends Controller
         return view('email-list.create');
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -28,11 +32,15 @@ class MailListController extends Controller
 
         $file = $request->file('file');
 
-        $fileHandle = fopen($file->getRealPath(), "r");
+        if (empty($file)) {
+            return to_route('list.create');
+        }
+
+        $fileHandle = fopen($file->getRealPath(), 'r');
 
         $dataFile = [];
 
-        while(($rows = fgetcsv($fileHandle, 0, ',')) !== false) {
+        while (($rows = fgetcsv($fileHandle, 0, ',')) !== false) {
             $dataFile[] = [
                 'name' => $rows[0],
                 'email' => $rows[1],
@@ -41,9 +49,11 @@ class MailListController extends Controller
 
         fclose($fileHandle);
 
-        $listMail = ListMail::query()->create($data);
+        DB::Transaction(function () use ($data, $dataFile) {
+            $listMail = ListMail::query()->create($data);
 
-        $listMail->subscript()->createMany($dataFile);
+            $listMail->subscript()->createMany($dataFile);
+        });
 
         return to_route('list');
     }
@@ -63,5 +73,15 @@ class MailListController extends Controller
     public function destroy(ListMail $listMail)
     {
         //
+    }
+
+    #[NoReturn]
+    public function search(Request $request)
+    {
+        $searchMail = ListMail::query()->where('title', 'like', '%' . $request->search . '%')->get();
+
+        return view('email-list.index', [
+            'emptyList' => $searchMail,
+        ]);
     }
 }

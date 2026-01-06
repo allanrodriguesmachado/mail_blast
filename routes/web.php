@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     $login = Auth::loginUsingId(1);
     if ($login) {
-        return  view('dashboard');
+        return view('dashboard');
     }
+
     return view('welcome');
 });
 
