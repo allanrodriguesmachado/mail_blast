@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\ListMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use JetBrains\PhpStorm\NoReturn;
 
 class MailListController extends Controller
 {
     public function index()
     {
         return view('email-list.index', [
-            'emptyList' => ListMail::query()->where('title', 'like', '%' . request()->search . '%')->paginate(2),
+            'emptyList' => ListMail::query()->withCount('subscript')->where('title', 'like', '%'.request()->search.'%')->paginate(2)
         ]);
     }
 
@@ -58,30 +57,14 @@ class MailListController extends Controller
         return to_route('list');
     }
 
-    public function show(ListMail $listMail)
-    {
-    }
+    public function show(ListMail $listMail) {}
 
-    public function edit(ListMail $listMail)
-    {
-    }
+    public function edit(ListMail $listMail) {}
 
-    public function update(Request $request, ListMail $listMail)
-    {
-    }
+    public function update(Request $request, ListMail $listMail) {}
 
     public function destroy(ListMail $listMail)
     {
         //
-    }
-
-    #[NoReturn]
-    public function search(Request $request)
-    {
-        $searchMail = ListMail::query()->where('title', 'like', '%' . $request->search . '%')->get();
-
-        return view('email-list.index', [
-            'emptyList' => $searchMail,
-        ]);
     }
 }
