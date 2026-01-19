@@ -3,6 +3,7 @@
 use App\Http\Controllers\MailListController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriberController;
+use App\Http\Controllers\TemplateMailController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -32,6 +33,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/subscriber/{listMail}', [SubscriberController::class, 'create'])->name('subscriber.create');
     Route::post('/subscriber/{listMail}', [SubscriberController::class, 'store'])->name('subscriber.store');
+
+    Route::resource('template', TemplateMailController::class);
 });
 
 require __DIR__ . '/auth.php';
