@@ -11,7 +11,7 @@ class MailListController extends Controller
     public function index()
     {
         return view('email-list.index', [
-            'emptyList' => ListMail::query()->withCount('subscript')->where('title', 'like', '%'.request()->search.'%')->paginate(2)
+            'emptyList' => ListMail::query()->withCount('subscript')->where('title', 'like', '%'.request()->search.'%')->paginate(2),
         ]);
     }
 

@@ -23,8 +23,8 @@ class StoreTemplateMailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|min:2',
-            'body' => 'required|string|max:255|min:2',
+            'name' => ['nullable', 'string', 'max:255'],
+            'body' => ['nullable', 'string'],
         ];
     }
 }

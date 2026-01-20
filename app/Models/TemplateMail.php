@@ -10,5 +10,6 @@ class TemplateMail extends Model
 {
     /** @use HasFactory<\Database\Factories\TemplateMailFactory> */
     use HasFactory;
+
     use SoftDeletes;
 }

@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TemplateMail;
 use App\Http\Requests\StoreTemplateMailRequest;
 use App\Http\Requests\UpdateTemplateMailRequest;
+use App\Models\TemplateMail;
+use JetBrains\PhpStorm\NoReturn;
 
 class TemplateMailController extends Controller
 {
     public function index()
     {
-        return view('template.index');
+        return view('template.index', [
+            'template' => TemplateMail::query()->get(),
+        ]);
     }
 
     public function create()
@@ -18,40 +21,38 @@ class TemplateMailController extends Controller
         return view('template.create');
     }
 
+    #[NoReturn]
     public function store(StoreTemplateMailRequest $request)
     {
-        dd($request->validated());
+        TemplateMail::query()->create($request->validated());
+
+        return redirect()->route('template.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(TemplateMail $templateMail)
+    public function show(TemplateMail $template)
     {
-        //
+        return redirect()->route('template.index',[
+            'template' => $template]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(TemplateMail $templateMail)
+    public function edit(TemplateMail $template)
     {
-        //
+        return view('template.edit', [
+            'templateMail' => $template,
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateTemplateMailRequest $request, TemplateMail $templateMail)
+    public function update(UpdateTemplateMailRequest $request, TemplateMail $template)
     {
-        //
+        $template->update($request->validated());
+
+        return redirect()->route('template.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(TemplateMail $templateMail)
+    public function destroy(TemplateMail $template)
     {
-        //
+        $template->delete();
+
+        return redirect()->route('template.index');
     }
 }

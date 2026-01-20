@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\ListMail;
 use App\Models\Subscript;
 use Illuminate\Http\Request;
-use JetBrains\PhpStorm\NoReturn;
 
 class SubscriberController extends Controller
 {
@@ -13,7 +12,7 @@ class SubscriberController extends Controller
     {
         return view('subscribers.index', [
             'listMail' => $listMail,
-            'subscript' => $listMail->subscript()->get()
+            'subscript' => $listMail->subscript()->get(),
         ]);
     }
 
