@@ -8,9 +8,6 @@
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Lista de inscritos para este e-mail.</p>
             </div>
 
-            <a href="{{route('subscribes.create', $mail)}}">Criar novo assinnte</a>
-
-
             <div class="flex items-center gap-2">
                 <span
                     class="inline-flex items-center bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
@@ -20,18 +17,47 @@
         </div>
     </x-slot>
 
+
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg">
 
-                <div class="gap-2 p-4 flex items-center justify-end">
-                    <form action="{{route('subscribes.index',  $mail)}}" method="POST">
-                        @method('GET')
-                        <div>
-                            <input type="text" name="search" placeholder="Pesquisar" autofocus
-                                   class="p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 p-4 border-b border-gray-200 dark:border-gray-700">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 p-5 ">
+                        <div class="flex items-center justify-start gap-3">
+                            <a
+                                href="{{ route('subscribes.create', $mail) }}"
+                                class="group inline-flex items-center px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-lg shadow-md hover:shadow-indigo-500/30 transition-all duration-200 active:scale-95"
+                            >
+                                <svg class="w-5 h-5 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                                <span class="ml-2">Criar novo assinante</span>
+                            </a>
                         </div>
-                    </form>
+                    </div>
+
+                    <div class="w-full md:w-72">
+                        <form action="{{ route('subscribes.index', $mail) }}" method="GET" class="w-full">
+                            <label for="search" class="sr-only">Pesquisar assinante</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
+                                    </svg>
+                                </div>
+                                <input
+                                    id="search"
+                                    name="search"
+                                    type="search"
+                                    value="{{ request('search') }}"
+                                    placeholder="Pesquisar assinante..."
+                                    class="w-full pl-10 pr-3 py-2 rounded-md border border-gray-300 bg-white text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                />
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
                 <div class="overflow-x-auto">

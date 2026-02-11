@@ -1,16 +1,3 @@
-{{--<x-app-layout>--}}
-
-{{--    <form action="{{route('subscribes.store',[$mail_id])}}" method="post">--}}
-{{--        @csrf--}}
-{{--        <input type="text" name="name" >--}}
-
-{{--        <input type="text" name="email">--}}
-
-{{--        <button type="submit">Salvar</button>--}}
-{{--    </form>--}}
-{{--</x-app-layout>--}}
-
-
 <x-app-layout>
     <div class="mt-2 bg-gray-100 dark:bg-gray-900 min-h-screen transition-colors duration-300">
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
