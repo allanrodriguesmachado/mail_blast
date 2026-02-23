@@ -9,7 +9,7 @@ Route::get('/', function () {
         return view('dashboard');
     }
 
-    return view('welcome');
+    return view('mail.index');
 });
 
 Route::get('/dashboard', function () {

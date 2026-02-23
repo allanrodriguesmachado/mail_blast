@@ -11,7 +11,7 @@ class TemplateController extends Controller
 
     public function index()
     {
-        $templates = Template::query()->get();
+        $templates = Template::query()->paginate();
 
         return view('template.index', compact('templates'));
     }
