@@ -19,7 +19,7 @@ class StoreTemplateRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'body' => ['required']
+            'body' => ['required'],
         ];
     }
 }

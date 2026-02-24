@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\{StoreSubscribeRequest, Subscriber\StoreRequest, UpdateSubscribeRequest};
+use App\Http\Requests\{Subscriber\StoreRequest, UpdateSubscribeRequest};
 use App\Models\{Mail, Subscribe};
 use Illuminate\Contracts\View\{View};
 use Illuminate\Database\Eloquent\Builder;
@@ -11,7 +11,7 @@ class SubscribeController extends Controller
 {
     public function index($mail_id)
     {
-        $name = mb_strtoupper(request()->search);
+        $name        = mb_strtoupper(request()->search);
         $subscribers = Subscribe::query()->where('mail_id', $mail_id)->get();
 
         if ($subscribers->isEmpty()) {
@@ -21,8 +21,8 @@ class SubscribeController extends Controller
         }
 
         return view('subscribes.index', [
-            'mail' => $mail_id,
-            'subscribes' => Subscribe::query()->where('mail_id', $mail_id)->when($name, fn(Builder $query) => $query->where('name', 'ILIKE', "%{$name}%"))->paginate(),
+            'mail'       => $mail_id,
+            'subscribes' => Subscribe::query()->where('mail_id', $mail_id)->when($name, fn (Builder $query) => $query->where('name', 'ILIKE', "%{$name}%"))->paginate(),
         ]);
     }
 

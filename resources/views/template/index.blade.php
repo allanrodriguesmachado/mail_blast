@@ -52,8 +52,7 @@
                                 class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700/50 dark:text-gray-400">
                             <tr>
                                 <th class="px-6 py-4 font-bold">ID</th>
-                                <th class="px-6 py-4 font-bold">Título da Lista</th>
-                                <th class="px-6 py-4 font-bold text-center">Assinantes</th>
+                                <th class="px-6 py-4 font-bold">Template</th>
                                 <th class="px-6 py-4 text-right">Ações</th>
                             </tr>
                             </thead>
@@ -68,8 +67,8 @@
                                         <div class="text-base font-semibold text-gray-900 dark:text-white">{{ $template->name }}</div>
                                         <div class="text-xs text-gray-400">Criado em {{ $template->created_at?->format('d/m/Y') }}</div>
                                     </td>
-{{--                                    <td class="px-6 py-4">--}}
-{{--                                        <div class="flex justify-end items-center gap-4">--}}
+                                    <td class="px-6 py-4">
+                                        <div class="flex justify-end items-center gap-4">
 {{--                                            <a href="{{ route('subscribes.index', $listMail->id) }}"--}}
 {{--                                               class="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"--}}
 {{--                                               title="Ver Assinantes">--}}
@@ -83,31 +82,31 @@
 {{--                                                </svg>--}}
 {{--                                            </a>--}}
 
-{{--                                            <a href="{{route('mail.edit', $listMail)}}"--}}
-{{--                                               class="text-gray-400 hover:text-yellow-500 transition-colors"--}}
-{{--                                               title="Editar">--}}
-{{--                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"--}}
-{{--                                                     viewBox="0 0 24 24">--}}
-{{--                                                    <path stroke-linecap="round" stroke-linejoin="round"--}}
-{{--                                                          stroke-width="2"--}}
-{{--                                                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>--}}
-{{--                                                </svg>--}}
-{{--                                            </a>--}}
+                                            <a href="{{route('templates.edit', $template)}}"
+                                               class="text-gray-400 hover:text-yellow-500 transition-colors"
+                                               title="Editar">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                     viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="2"
+                                                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                                </svg>
+                                            </a>
 
-{{--                                            <form action="{{ route('mail.destroy', $listMail->id) }}" method="POST"--}}
-{{--                                                  onsubmit="return confirm('Deseja excluir esta lista?')">--}}
-{{--                                                @csrf @method('DELETE')--}}
-{{--                                                <button class="text-gray-400 hover:text-red-600 transition-colors">--}}
-{{--                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor"--}}
-{{--                                                         viewBox="0 0 24 24">--}}
-{{--                                                        <path stroke-linecap="round" stroke-linejoin="round"--}}
-{{--                                                              stroke-width="2"--}}
-{{--                                                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>--}}
-{{--                                                    </svg>--}}
-{{--                                                </button>--}}
-{{--                                            </form>--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
+                                            <form action="{{ route('templates.destroy', $template->id) }}" method="POST">
+                                                @csrf @method('DELETE')
+                                                <button class="text-gray-400 hover:text-red-600 transition-colors">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                         viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              stroke-width="2"
+                                                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                    </svg>
+                                                </button>
+
+                                            </form>
+                                        </div>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>

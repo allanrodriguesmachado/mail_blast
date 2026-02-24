@@ -17,6 +17,11 @@
                     <x-nav-link :href="route('templates.index')" :active="request()->routeIs('template.index')">
                         {{__('Templates')}}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('campaigns.index')" :active="request()->routeIs('template.index')">
+                        {{__('Campaigns')}}
+                    </x-nav-link>
+
                 </div>
             </div>
 

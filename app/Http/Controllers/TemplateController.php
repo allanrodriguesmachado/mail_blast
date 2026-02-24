@@ -2,31 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreTemplateRequest;
-use App\Http\Requests\UpdateTemplateRequest;
+use App\Http\Requests\{StoreTemplateRequest, UpdateTemplateRequest};
 use App\Models\Template;
 
 class TemplateController extends Controller
 {
-
     public function index()
     {
-        $templates = Template::query()->paginate();
+        $templates = Template::query()->paginate(2);
 
         return view('template.index', compact('templates'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('template.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreTemplateRequest $request)
     {
         Template::query()->create($request->validated());
@@ -34,35 +26,28 @@ class TemplateController extends Controller
         return to_route('templates.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Template $template)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Template $template)
     {
-        //
+        return view('template.edit', compact('template'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateTemplateRequest $request, Template $template)
     {
-        //
+        $template->update($request->validated());
+
+
+        return to_route('templates.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Template $template)
     {
-        //
+        $template->delete();
+
+        return to_route('templates.index');
     }
 }

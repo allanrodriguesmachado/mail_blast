@@ -1,6 +1,10 @@
 <?php
 
-use App\Http\Controllers\{MailController, ProfileController, SubscribeController, TemplateController};
+use App\Http\Controllers\{CampaignController,
+    MailController,
+    ProfileController,
+    SubscribeController,
+    TemplateController};
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -44,9 +48,16 @@ Route::middleware('auth')->group(function () {
     /**
      * Template
      */
-    Route::get('/templates', [TemplateController::class, 'index'])->name('templates.index');
-    Route::get('/template/create', [TemplateController::class, 'create'])->name('templates.create');
-    Route::post('/template/store', [TemplateController::class, 'store'])->name('templates.store');
+//    Route::get('/templates', [TemplateController::class, 'index'])->name('templates.index');
+//    Route::get('/template/create', [TemplateController::class, 'create'])->name('templates.create');
+//    Route::post('/template/store', [TemplateController::class, 'store'])->name('templates.store');
+//
+    Route::resource('templates', TemplateController::class, ['index', 'create', 'store', 'edit']);
+
+    /**
+     * Campaign
+     */
+    Route::resource('campaigns', CampaignController::class, ['index']);
 });
 
 require __DIR__ . '/auth.php';
