@@ -28,7 +28,7 @@ class TemplateController extends Controller
 
     public function show(Template $template)
     {
-        //
+        return view('template.show', compact('template'));
     }
 
     public function edit(Template $template)
@@ -39,7 +39,6 @@ class TemplateController extends Controller
     public function update(UpdateTemplateRequest $request, Template $template)
     {
         $template->update($request->validated());
-
 
         return to_route('templates.index');
     }
