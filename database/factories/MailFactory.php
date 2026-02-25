@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Template>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Mail>
  */
-class TemplateFactory extends Factory
+class MailFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,7 @@ class TemplateFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->word(),
-            'body' => $this->faker->paragraph()
+            'title' => $this->faker->title()
         ];
     }
 }

@@ -48,16 +48,14 @@ Route::middleware('auth')->group(function () {
     /**
      * Template
      */
-//    Route::get('/templates', [TemplateController::class, 'index'])->name('templates.index');
-//    Route::get('/template/create', [TemplateController::class, 'create'])->name('templates.create');
-//    Route::post('/template/store', [TemplateController::class, 'store'])->name('templates.store');
-//
     Route::resource('templates', TemplateController::class, ['index', 'create', 'store', 'edit']);
 
     /**
      * Campaign
      */
-    Route::resource('campaigns', CampaignController::class, ['index']);
+    Route::resource('campaigns', CampaignController::class, ['index', 'store']);
+    Route::post('campaigns/create/{?tab}', [CampaignController::class, 'create'])->name('campaigns.create');
+    Route::post('campaigns/cancel', [CampaignController::class, 'cancel'])->name('campaigns.cancel');
 });
 
 require __DIR__ . '/auth.php';

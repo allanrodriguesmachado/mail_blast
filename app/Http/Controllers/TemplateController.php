@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\{StoreTemplateRequest, UpdateTemplateRequest};
+use App\Http\Requests\Template\{StoreRequest, UpdateRequest};
 use App\Models\Template;
 
 class TemplateController extends Controller
@@ -19,7 +19,7 @@ class TemplateController extends Controller
         return view('template.create');
     }
 
-    public function store(StoreTemplateRequest $request)
+    public function store(StoreRequest $request)
     {
         Template::query()->create($request->validated());
 
@@ -36,7 +36,7 @@ class TemplateController extends Controller
         return view('template.edit', compact('template'));
     }
 
-    public function update(UpdateTemplateRequest $request, Template $template)
+    public function update(UpdateRequest $request, Template $template)
     {
         $template->update($request->validated());
 

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Eloquent;
-use Illuminate\Database\Eloquent\{Model, SoftDeletes};
+use Illuminate\Database\Eloquent\{Factories\HasFactory, Model, SoftDeletes};
 
 /**
  * @property Eloquent
@@ -11,4 +11,5 @@ use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 class Subscribe extends Model
 {
     use SoftDeletes;
+    use HasFactory;
 }
