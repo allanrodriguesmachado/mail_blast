@@ -2,21 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Campaign\StoreRequest;
+use App\Models\Campaign;
+use App\Models\Mail;
 use Illuminate\Http\Request;
 
 class CampaignController extends Controller
 {
     public function index()
     {
-//        session()->forget('campaigns::create');
-        dump(session('campaigns::create'));
+       $mail = Mail::query()->get()->map(fn ($mail) => [
+            'id' => $mail->id,
+            'title' => $mail->title,
+        ])->toArray();
 
-        // Pega qual tab deve ser exibido (vindo do redirect após salvar)
-        $activeTab = session('campaigns::active_tab', 'groups');
+
+        $tab = session('campaigns::active_tab', 'groups');
 
         return view('campaigns.index', [
             'campaignsSession' => session('campaigns::create'),
-            'activeTab' => $activeTab
+            'activeTab' => $tab,
+            'mail' => $mail
         ]);
     }
 
@@ -25,54 +31,36 @@ class CampaignController extends Controller
         return view('campaigns.create');
     }
 
-    public function createTwo()
-    {
-        return view('campaigns.create-two');
-    }
-
-    public function store(Request $request)
+    public function store(StoreRequest $request, $tab)
     {
         $oldData = session('campaigns::create', []);
-
-        $data = $request->validate([
-            'name' => ['nullable'],
-            'body' => ['nullable']
-        ]);
+        $data = $request->validated();
 
         $newData = array_merge($oldData, $data);
-
-
         session()->put('campaigns::create', $newData);
 
-        // Verifica se tem um próximo tab para ir
-        $nextTab = $request->input('next_tab');
-
-        if ($nextTab) {
-            // Tem próximo tab: salva qual deve ser exibido
-            session()->put('campaigns::active_tab', $nextTab);
-
+        if ($tab === 'groups') {
+            session()->put('campaigns::active_tab', 'likes');
             return to_route('campaigns.index');
-        } else {
-            // NÃO tem próximo tab: é o FINALIZAR!
-            // Aqui você pode salvar no banco de dados, enviar email, etc.
+        }
+
+        if ($tab === 'likes') {
             $finalData = session('campaigns::create');
+            dump($finalData);
+            Campaign::create($finalData);
 
-            // TODO: Salvar $finalData no banco de dados
-            // Campaign::create($finalData);
-
-            // Limpa TUDO da sessão
             session()->forget('campaigns::create');
             session()->forget('campaigns::active_tab');
 
-            // Redireciona com mensagem de sucesso
             return to_route('campaigns.index')
                 ->with('success', 'Campanha cadastrada com sucesso!');
         }
+
+        return to_route('campaigns.index');
     }
 
     public function cancel()
     {
-        // Limpa toda a sessão de cadastro
         session()->forget('campaigns::create');
         session()->forget('campaigns::active_tab');
 

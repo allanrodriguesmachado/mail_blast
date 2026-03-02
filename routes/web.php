@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Middleware\CampaignCreateSessionControl;
 use App\Http\Controllers\{CampaignController,
     MailController,
     ProfileController,
     SubscribeController,
-    TemplateController};
+    TemplateController
+};
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -53,8 +55,9 @@ Route::middleware('auth')->group(function () {
     /**
      * Campaign
      */
-    Route::resource('campaigns', CampaignController::class, ['index', 'store']);
-    Route::post('campaigns/create/{?tab}', [CampaignController::class, 'create'])->name('campaigns.create');
+    Route::resource('campaigns', CampaignController::class)->only(['index']);
+    Route::get('campaigns/create/{tab?}', [CampaignController::class, 'create'])->name('campaigns.create');
+    Route::post('campaigns/store/{tab?}', [CampaignController::class, 'store'])->name('campaigns.store');
     Route::post('campaigns/cancel', [CampaignController::class, 'cancel'])->name('campaigns.cancel');
 });
 

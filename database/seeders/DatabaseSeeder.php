@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Campaign;
 use App\Models\Mail;
 use App\Models\Subscribe;
 use App\Models\Template;
@@ -23,6 +22,6 @@ class DatabaseSeeder extends Seeder
 
         Mail::factory()->count(10)->has(Subscribe::factory(50))->create();
         Template::factory()->count(10)->create();
-        Campaign::factory()->count(10)->create();
+//        Campaign::factory()->count(10)->create();
     }
 }
