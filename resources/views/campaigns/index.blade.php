@@ -1,5 +1,4 @@
 <x-app-layout>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
@@ -99,7 +98,6 @@
                                 </form>
                             </div>
 
-
                             <div x-show="selectedTab === 'likes'" x-cloak id="tabpanelLikes" role="tabpanel" aria-label="likes">
                                 <form action="{{ route('campaigns.store', 'likes') }}" method="POST" class="space-y-4">
                                     @csrf
@@ -117,8 +115,6 @@
                                                 class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors">
                                             Finalizar
                                         </button>
-
-
                                     </div>
                                 </form>
                             </div>

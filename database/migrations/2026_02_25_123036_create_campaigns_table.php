@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('subject');
             $table->foreignId('mail_id')->constrained('mails');
+            $table->foreignId('template_id')->nullable()->constrained('templates');
             $table->boolean('track_click')->default(false);
             $table->boolean('track_open')->default(false);
             $table->text('body')->nullable();

@@ -2,25 +2,22 @@
 
 use App\Http\Middleware\CampaignCreateSessionControl;
 use App\Http\Controllers\{CampaignController,
+    DashboardController,
     MailController,
     ProfileController,
     SubscribeController,
-    TemplateController
-};
+    TemplateController};
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-
-    if (Auth::loginUsingId(1)) {
-        return view('dashboard');
-    }
-
-    return view('mail.index');
+    Auth::loginUsingId(1);
+    return redirect()->route('dashboard');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', DashboardController::class)
+    ->middleware('auth')
+    ->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

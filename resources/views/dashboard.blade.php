@@ -16,7 +16,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-blue-100 text-sm font-medium">Listas de E-mail</p>
-                            <p class="text-3xl font-bold mt-2">0</p>
+                            <p class="text-3xl font-bold mt-2">{{$mails}}</p>
                         </div>
                         <div class="bg-blue-400/30 p-3 rounded-lg">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -30,7 +30,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-purple-100 text-sm font-medium">Templates</p>
-                            <p class="text-3xl font-bold mt-2">0</p>
+                            <p class="text-3xl font-bold mt-2">{{$templates}}</p>
                         </div>
                         <div class="bg-purple-400/30 p-3 rounded-lg">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -44,7 +44,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-green-100 text-sm font-medium">Campanhas</p>
-                            <p class="text-3xl font-bold mt-2">0</p>
+                            <p class="text-3xl font-bold mt-2">{{$campaigns}}</p>
                         </div>
                         <div class="bg-green-400/30 p-3 rounded-lg">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
