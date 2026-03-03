@@ -26,8 +26,10 @@ class StoreRequest extends FormRequest
                 'name' => 'required|string|max:255',
                 'subject' => 'required|string|max:255',
                 'mail_id' => 'required|exists:mails,id',
+                'track_click' => 'boolean:true,false',
+                'track_open' => 'boolean:true,false'
             ],
-            'likes' => [
+            'body' => [
                 'body' => 'required|string',
 
             ]

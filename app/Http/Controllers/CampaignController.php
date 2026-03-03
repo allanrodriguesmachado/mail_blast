@@ -6,6 +6,7 @@ use App\Http\Requests\Campaign\StoreRequest;
 use App\Models\Campaign;
 use App\Models\Mail;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\isEmpty;
 
 class CampaignController extends Controller
 {
@@ -15,7 +16,6 @@ class CampaignController extends Controller
             'id' => $mail->id,
             'title' => $mail->title,
         ])->toArray();
-
 
         $tab = session('campaigns::active_tab', 'groups');
 
@@ -37,16 +37,22 @@ class CampaignController extends Controller
         $data = $request->validated();
 
         $newData = array_merge($oldData, $data);
+
+        if ($request->has('step_with_checkbox')) {
+            $newData['track_click'] = $request->boolean('track_click');
+            $newData['track_open'] = $request->boolean('track_open');
+        }
+
         session()->put('campaigns::create', $newData);
 
         if ($tab === 'groups') {
-            session()->put('campaigns::active_tab', 'likes');
+            session()->put('campaigns::active_tab', 'body');
             return to_route('campaigns.index');
         }
 
-        if ($tab === 'likes') {
+        if ($tab === 'body') {
             $finalData = session('campaigns::create');
-            dump($finalData);
+
             Campaign::create($finalData);
 
             session()->forget('campaigns::create');

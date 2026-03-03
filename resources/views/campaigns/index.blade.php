@@ -3,7 +3,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             @if(session('success'))
-                <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                     role="alert">
                     <strong class="font-bold">Sucesso!</strong>
                     <span class="block sm:inline">{{ session('success') }}</span>
                 </div>
@@ -35,59 +36,107 @@
                                     aria-controls="tabpanelGroups">
                                 Groups
                             </button>
-                            <button @click="selectedTab = 'likes'" :aria-selected="selectedTab === 'likes'"
-                                    :tabindex="selectedTab === 'likes' ? '0' : '-1'"
-                                    :class="selectedTab === 'likes' ? 'font-bold text-black border-b-2 border-black dark:border-white dark:text-white' : 'text-neutral-600 font-medium dark:text-neutral-300 dark:hover:border-b-neutral-300 dark:hover:text-white hover:border-b-2 hover:border-b-neutral-800 hover:text-neutral-900'"
+                            <button @click="selectedTab = 'body'" :aria-selected="selectedTab === 'body'"
+                                    :tabindex="selectedTab === 'body' ? '0' : '-1'"
+                                    :class="selectedTab === 'body' ? 'font-bold text-black border-b-2 border-black dark:border-white dark:text-white' : 'text-neutral-600 font-medium dark:text-neutral-300 dark:hover:border-b-neutral-300 dark:hover:text-white hover:border-b-2 hover:border-b-neutral-800 hover:text-neutral-900'"
                                     class="h-min px-4 py-2 text-sm" type="button" role="tab"
-                                    aria-controls="tabpanelLikes">Likes
+                                    aria-controls="tabpanelBody">{{__('Body')}}
                             </button>
                         </div>
 
                         <div class="px-2 py-4 text-neutral-600 dark:text-neutral-300">
-                            <div x-show="selectedTab === 'groups'" x-cloak id="tabpanelGroups" role="tabpanel" aria-label="groups">
+                            <div x-show="selectedTab === 'groups'" x-cloak id="tabpanelGroups" role="tabpanel"
+                                 aria-label="groups">
                                 <form action="{{ route('campaigns.store', 'groups') }}" method="POST" class="space-y-4">
                                     @csrf
                                     <div class="grid grid-cols-2 gap-3">
-                                        <div >
-                                            <label for="name" class="block text-sm font-medium text-gray-900 dark:text-white mb-2">Name</label>
-                                            <input class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
-                                                   type="text"
-                                                   name="name"
-                                                   id="name"
-                                                   value="{{ $campaignsSession['name'] ?? '' }}"
-                                                   required
-                                                   placeholder="Nome da campanha"
+                                        <div>
+                                            <label for="name"
+                                                   class="block text-sm font-medium text-gray-900 dark:text-white mb-2">Name</label>
+                                            <input
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                                                type="text"
+                                                name="name"
+                                                id="name"
+                                                value="{{ $campaignsSession['name'] ?? '' }}"
+                                                required
+                                                placeholder="Nome da campanha"
                                             >
                                         </div>
 
-                                        <div >
-                                            <label for="subject" class="block text-sm font-medium text-gray-900 dark:text-white mb-2">subject</label>
-                                            <input class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
-                                                   type="text"
-                                                   name="subject"
-                                                   id="subject"
-                                                   value="{{ $campaignsSession['subject'] ?? '' }}"
-                                                   required
-                                                   placeholder="Assunto da campanha"
+                                        <div>
+                                            <label for="subject"
+                                                   class="block text-sm font-medium text-gray-900 dark:text-white mb-2">subject</label>
+                                            <input
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                                                type="text"
+                                                name="subject"
+                                                id="subject"
+                                                value="{{ $campaignsSession['subject'] ?? '' }}"
+                                                required
+                                                placeholder="Assunto da campanha"
                                             >
                                         </div>
+
                                     </div>
 
                                     <div class="grid grid-cols-2 gap-3">
                                         <div>
-                                            <label for="mail_id" class="block text-sm font-medium text-gray-900 dark:text-white mb-2">Selecione um Email</label>
+                                            <label for="mail_id"
+                                                   class="block text-sm font-medium text-gray-900 dark:text-white mb-2">Selecione
+                                                um Email</label>
                                             <select name="mail_id" id="mail_id"
                                                     class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
                                                     required>
                                                 <option value="">-- Escolha um email --</option>
                                                 @foreach($mail as $m)
-                                                    <option value="{{ $m['id'] }}" {{ ($campaignsSession['mail_id'] ?? '') == $m['id'] ? 'selected' : '' }}>
+                                                    <option
+                                                        value="{{ $m['id'] }}" {{ ($campaignsSession['mail_id'] ?? '') == $m['id'] ? 'selected' : '' }}>
                                                         {{ $m['title'] }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
+
+                                    <label class="relative inline-flex items-center cursor-pointer group">
+                                        <input type="checkbox" name="track_click" value="1" class="sr-only peer">
+
+                                        <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors
+                                                      peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300
+                                                      dark:peer-focus:ring-blue-800
+                                                      dark:bg-gray-700
+                                                      peer-checked:after:translate-x-full peer-checked:after:border-white
+                                                      after:content-[''] after:absolute after:top-[2px] after:left-[2px]
+                                                      after:bg-white after:border-gray-300 after:border after:rounded-full
+                                                      after:h-5 after:w-5 after:transition-all
+                                                      dark:border-gray-600
+                                                      peer-checked:bg-blue-600"></div>
+
+                                        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                            Rastrear Cliques
+                                          </span>
+                                    </label>
+
+
+                                    <label class="relative inline-flex items-center cursor-pointer group">
+                                        <input type="checkbox" name="track_open" value="1" class="sr-only peer">
+
+                                        <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors
+                                                      peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300
+                                                      dark:peer-focus:ring-blue-800
+                                                      dark:bg-gray-700
+                                                      peer-checked:after:translate-x-full peer-checked:after:border-white
+                                                      after:content-[''] after:absolute after:top-[2px] after:left-[2px]
+                                                      after:bg-white after:border-gray-300 after:border after:rounded-full
+                                                      after:h-5 after:w-5 after:transition-all
+                                                      dark:border-gray-600
+                                                      peer-checked:bg-blue-600"></div>
+
+                                        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                            Rastrear abertos
+                                          </span>
+                                    </label>
 
                                     <div class="flex  justify-end">
                                         <button type="submit"
@@ -98,16 +147,19 @@
                                 </form>
                             </div>
 
-                            <div x-show="selectedTab === 'likes'" x-cloak id="tabpanelLikes" role="tabpanel" aria-label="likes">
-                                <form action="{{ route('campaigns.store', 'likes') }}" method="POST" class="space-y-4">
+                            <div x-show="selectedTab === 'body'" x-cloak id="tabpanelBody" role="tabpanel"
+                                 aria-label="likes">
+                                <form action="{{ route('campaigns.store', 'body') }}" method="POST" class="space-y-4">
                                     @csrf
                                     <div>
-                                        <label for="body" class="block text-sm font-medium text-gray-900 dark:text-white mb-2">Body</label>
-                                        <textarea class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
-                                                  name="body"
-                                                  id="body"
-                                                  rows="5"
-                                                  required>{{ $campaignsSession['body'] ?? '' }}</textarea>
+                                        <label for="body"
+                                               class="block text-sm font-medium text-gray-900 dark:text-white mb-2">Body</label>
+                                        <textarea
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                                            name="body"
+                                            id="body"
+                                            rows="5"
+                                            required>{{ $campaignsSession['body'] ?? '' }}</textarea>
                                     </div>
 
                                     <div class="flex  justify-end ">
