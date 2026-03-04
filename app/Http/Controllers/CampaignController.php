@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Campaign\StoreRequest;
+use App\Mail\EmailCampaign;
 use App\Models\Campaign;
 use App\Models\{Mail, Template};
 
@@ -63,7 +64,11 @@ class CampaignController extends Controller
 
         if ($tab === 'send_at') {
             $finalData = session('campaigns::create');
-            Campaign::create($finalData);
+            $campaign = Campaign::create($finalData);
+
+            foreach ($campaign->mail->subscribes AS $value ) {
+                \Illuminate\Support\Facades\Mail::to($value->email)->send(new EmailCampaign($campaign));
+            }
 
             session()->forget('campaigns::create');
             session()->forget('campaigns::active_tab');
