@@ -1,5 +1,7 @@
 <?php
 
+use App\Mail\EmailCampaign;
+use App\Models\Campaign;
 use App\Http\Controllers\{CampaignController,
     DashboardController,
     MailController,
@@ -10,9 +12,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     Auth::loginUsingId(1);
+
     return redirect()->route('dashboard');
 });
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
@@ -53,6 +55,14 @@ Route::middleware('auth')->group(function () {
     Route::get('campaigns/create/{tab?}', [CampaignController::class, 'create'])->name('campaigns.create');
     Route::post('campaigns/store/{tab?}', [CampaignController::class, 'store'])->name('campaigns.store');
     Route::post('campaigns/cancel', [CampaignController::class, 'cancel'])->name('campaigns.cancel');
+
+    Route::get('campaigns/{campaign}/email', function (Campaign $campaign) {
+        foreach ($campaign->mail->subscribes AS $value ) {
+            Mail::to($value->email)->send(new EmailCampaign($campaign));
+        }
+
+        return (new EmailCampaign($campaign))->render();
+    })->name('campaigns.preview');
 });
 
 require __DIR__ . '/auth.php';

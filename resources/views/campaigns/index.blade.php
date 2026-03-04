@@ -1,4 +1,5 @@
 <x-app-layout>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
@@ -10,8 +11,15 @@
                 </div>
             @endif
 
-            <div
-                class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg border border-gray-200 dark:border-gray-700">
+            @if(session('cancel'))
+                <div class="mb-4 bg-orange-100 border border-orange-400 text-orange-700 px-4 py-3 rounded relative"
+                     role="alert">
+                    <strong class="font-bold">Cancelado!</strong>
+                    <span class="block sm:inline">{{ session('cancel') }}</span>
+                </div>
+            @endif
+
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg border border-gray-200 dark:border-gray-700">
                 <div class="p-8">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Nova Campanha</h2>
@@ -42,6 +50,12 @@
                                     class="h-min px-4 py-2 text-sm" type="button" role="tab"
                                     aria-controls="tabpanelBody">{{__('Body')}}
                             </button>
+                            <button @click="selectedTab = 'send_at'" :aria-selected="selectedTab === 'send_at'"
+                                    :tabindex="selectedTab === 'send_at' ? '0' : '-1'"
+                                    :class="selectedTab === 'send_at' ? 'font-bold text-black border-b-2 border-black dark:border-white dark:text-white' : 'text-neutral-600 font-medium dark:text-neutral-300 dark:hover:border-b-neutral-300 dark:hover:text-white hover:border-b-2 hover:border-b-neutral-800 hover:text-neutral-900'"
+                                    class="h-min px-4 py-2 text-sm" type="button" role="tab"
+                                    aria-controls="tabpanelSend_at">{{__('Send At')}}
+                            </button>
                         </div>
 
                         <div class="px-2 py-4 text-neutral-600 dark:text-neutral-300">
@@ -59,9 +73,14 @@
                                                 name="name"
                                                 id="name"
                                                 value="{{ $campaignsSession['name'] ?? '' }}"
-                                                required
                                                 placeholder="Nome da campanha"
                                             >
+                                            @error('name')
+                                            <p class="mt-2 text-sm text-red-600 dark:text-red-400 font-medium">{{ $message }}</p>
+
+                                            @enderror
+
+
                                         </div>
 
                                         <div>
@@ -73,11 +92,13 @@
                                                 name="subject"
                                                 id="subject"
                                                 value="{{ $campaignsSession['subject'] ?? '' }}"
-                                                required
                                                 placeholder="Assunto da campanha"
                                             >
-                                        </div>
 
+                                            @error('subject')
+                                            <p class="mt-2 text-sm text-red-600 dark:text-red-400 font-medium">{{ $message }}</p>
+                                            @enderror
+                                        </div>
                                     </div>
 
                                     <div class="grid grid-cols-2 gap-3">
@@ -87,7 +108,7 @@
                                                 um Email</label>
                                             <select name="mail_id" id="mail_id"
                                                     class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
-                                                    required>
+                                            >
                                                 <option value="">-- Escolha um email --</option>
                                                 @foreach($mail as $m)
                                                     <option
@@ -96,8 +117,34 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+
+                                            @error('mail_id')
+                                            <p class="mt-2 text-sm text-red-600 dark:text-red-400 font-medium">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <div>
+                                            <label for="template_id"
+                                                   class="block text-sm font-medium text-gray-900 dark:text-white mb-2">Selecione
+                                                um Template</label>
+                                            <select name="template_id" id="template_id"
+                                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                                            >
+                                                <option value="">-- Escolha um template --</option>
+                                                @foreach($template as $t)
+                                                    <option
+                                                        value="{{ $t['id'] }}" {{ ($campaignsSession['template_id'] ?? '') == $t['id'] ? 'selected' : '' }}>
+                                                        {{ $t['name'] }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+
+                                            @error('template_id')
+                                            <p class="mt-2 text-sm text-red-600 dark:text-red-400 font-medium">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
+
 
                                     <label class="relative inline-flex items-center cursor-pointer group">
                                         <input type="checkbox" name="track_click" value="1" class="sr-only peer">
@@ -159,21 +206,50 @@
                                             name="body"
                                             id="body"
                                             rows="5"
-                                            required>{{ $campaignsSession['body'] ?? '' }}</textarea>
+                                        >{{ $campaignsSession['body'] ?? '' }}</textarea>
                                     </div>
 
                                     <div class="flex  justify-end ">
                                         <button type="submit"
                                                 class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors">
-                                            Finalizar
+                                            Proximo ->
                                         </button>
                                     </div>
                                 </form>
+                            </div>
+
+                            <div x-show="selectedTab === 'send_at'" x-cloak id="tabpanelSend_at" role="tabpanel"
+                                 aria-label="likes">
+                                <form action="{{ route('campaigns.store', 'send_at') }}" method="POST"
+                                      class="space-y-4">
+                                    @csrf
+                                    <div>
+                                        <label for="send_at"
+                                               class="block text-sm font-medium text-gray-900 dark:text-white mb-2">Data
+                                            de Envio</label>
+                                        <input
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                                            type="datetime-local"
+                                            name="send_at"
+                                            id="send_at"
+                                            value="{{ $campaignsSession['send_at'] ?? '' }}"
+
+                                        >
+                                    </div>
+
+                                    <div>
+                                        De: {{ config('mail.from.address') }}
+                                    </div>
+
+                                    <div class="flex  justify-end ">
+                                        <button type="submit"
+                                                class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors">
+                                            Agendar Envio
+                                        </button>
+                                    </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 </x-app-layout>

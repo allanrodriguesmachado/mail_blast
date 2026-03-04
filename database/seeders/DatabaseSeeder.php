@@ -2,10 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Mail;
-use App\Models\Subscribe;
-use App\Models\Template;
-use App\Models\User;
+use App\Models\{Mail, Subscribe, Template, User};
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -22,6 +19,6 @@ class DatabaseSeeder extends Seeder
 
         Mail::factory()->count(10)->has(Subscribe::factory(50))->create();
         Template::factory()->count(10)->create();
-//        Campaign::factory()->count(10)->create();
+        //        Campaign::factory()->count(10)->create();
     }
 }

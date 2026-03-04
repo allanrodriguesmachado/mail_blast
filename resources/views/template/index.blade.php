@@ -37,14 +37,6 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="py-8">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-{{--                    <div class="mb-6 flex justify-between items-center">--}}
-{{--                        <div class="text-sm font-medium text-gray-500 dark:text-gray-400">--}}
-{{--                            Mostrando <span class="text-gray-900 dark:text-white font-bold">{{ $mail->count() }}</span>--}}
-{{--                            registros--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-
                     <div
                         class="bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 sm:rounded-xl overflow-hidden">
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">

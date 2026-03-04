@@ -17,14 +17,14 @@ class CampaignFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
-            'subject' => $this->faker->sentence(),
+            'name'          => $this->faker->name(),
+            'subject'       => $this->faker->sentence(),
             'email_list_id' => 1,
-            'template_id' => 2,
-            'track_click' => $this->faker->boolean(),
-            'track_open' => $this->faker->boolean(),
-            'body' => $this->faker->paragraph(),
-            'sent_at' => null,
+            'template_id'   => 2,
+            'track_click'   => $this->faker->boolean(),
+            'track_open'    => $this->faker->boolean(),
+            'body'          => $this->faker->paragraph(),
+            'sent_at'       => null,
         ];
     }
 }

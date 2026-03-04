@@ -18,8 +18,8 @@ class SubscribeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
+            'name'    => $this->faker->name(),
+            'email'   => $this->faker->unique()->safeEmail(),
             'mail_id' => Mail::factory(),
         ];
     }

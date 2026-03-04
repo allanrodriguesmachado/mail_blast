@@ -23,15 +23,18 @@ class StoreRequest extends FormRequest
     {
         return match ($this->route('tab')) {
             'groups' => [
-                'name' => 'required|string|max:255',
-                'subject' => 'required|string|max:255',
-                'mail_id' => 'required|exists:mails,id',
+                'name'        => 'required|string|max:255',
+                'subject'     => 'required|string|max:255',
+                'mail_id'     => 'required|exists:mails,id',
+                'template_id' => 'required|exists:templates,id',
                 'track_click' => 'boolean:true,false',
-                'track_open' => 'boolean:true,false'
+                'track_open'  => 'boolean:true,false',
             ],
             'body' => [
                 'body' => 'required|string',
-
+            ],
+            'send_at' => [
+                'send_at' => 'required|date|after:now',
             ]
         };
     }

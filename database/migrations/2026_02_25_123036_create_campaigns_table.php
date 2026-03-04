@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     public function up(): void
     {
         Schema::create('campaigns', function (Blueprint $table) {
@@ -17,7 +16,7 @@ return new class extends Migration
             $table->boolean('track_click')->default(false);
             $table->boolean('track_open')->default(false);
             $table->text('body')->nullable();
-            $table->dateTime('sent_at')->nullable();
+            $table->dateTime('send_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

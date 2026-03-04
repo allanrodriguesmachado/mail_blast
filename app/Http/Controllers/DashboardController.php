@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Campaign;
-use App\Models\Mail;
-use App\Models\Template;
-use Mockery\Generator\Method;
+use App\Models\{Campaign, Mail, Template};
 
 class DashboardController extends Controller
 {
     public function __invoke()
     {
         return view('dashboard', [
-            'mails' => Mail::query()->count(),
+            'mails'     => Mail::query()->count(),
             'templates' => Template::query()->count(),
-            'campaigns' => Campaign::query()->count()
+            'campaigns' => Campaign::query()->count(),
         ]);
     }
 }
