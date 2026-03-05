@@ -5,19 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Campaign\StoreRequest;
 use App\Mail\EmailCampaign;
 use App\Models\Campaign;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail as MailQueue;
 use App\Models\{Mail, Template};
 
 class CampaignController extends Controller
 {
     public function index()
     {
-        $mail = Mail::query()->get()->map(fn ($mail) => [
-            'id'    => $mail->id,
+        $mail = Mail::query()->get()->map(fn($mail) => [
+            'id' => $mail->id,
             'title' => $mail->title,
         ])->toArray();
 
-        $template = Template::query()->get()->map(fn ($template) => [
-            'id'   => $template->id,
+        $template = Template::query()->get()->map(fn($template) => [
+            'id' => $template->id,
             'name' => $template->name,
         ]);
 
@@ -25,9 +27,9 @@ class CampaignController extends Controller
 
         return view('campaigns.index', [
             'campaignsSession' => session('campaigns::create'),
-            'activeTab'        => $tab,
-            'mail'             => $mail,
-            'template'         => $template
+            'activeTab' => $tab,
+            'mail' => $mail,
+            'template' => $template
         ]);
     }
 
@@ -39,13 +41,13 @@ class CampaignController extends Controller
     public function store(StoreRequest $request, $tab)
     {
         $oldData = session('campaigns::create', []);
-        $data    = $request->validated();
+        $data = $request->validated();
 
         $newData = array_merge($oldData, $data);
 
         if ($request->has('step_with_checkbox')) {
             $newData['track_click'] = $request->boolean('track_click');
-            $newData['track_open']  = $request->boolean('track_open');
+            $newData['track_open'] = $request->boolean('track_open');
         }
 
         session()->put('campaigns::create', $newData);
@@ -66,8 +68,8 @@ class CampaignController extends Controller
             $finalData = session('campaigns::create');
             $campaign = Campaign::create($finalData);
 
-            foreach ($campaign->mail->subscribes AS $value ) {
-                \Illuminate\Support\Facades\Mail::to($value->email)->send(new EmailCampaign($campaign));
+            foreach ($campaign->mail->subscribes as $value) {
+                MailQueue::to($value->email)->later(Carbon::parse(now()->addMinutes(2)), new EmailCampaign($campaign));
             }
 
             session()->forget('campaigns::create');
